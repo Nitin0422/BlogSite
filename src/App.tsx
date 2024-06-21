@@ -1,10 +1,21 @@
-import { Button } from 'antd';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import HomePage from "./pages/Home";
+import BlogsPage from "./pages/Blogs";
 
 function App() {
  
   return (
     <div className="">
-       <Button type="primary">Button</Button>
+      <BrowserRouter>
+      <Routes>
+          <Route element={<HomePage /> } path="/"/>
+          <Route element={<BlogsPage /> } path="/blogs"/>
+      </Routes>
+      </BrowserRouter>       
     </div>
   )
 }
