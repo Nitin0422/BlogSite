@@ -1,6 +1,7 @@
+import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, ChevronsDownIcon, Mail } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -184,8 +185,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="bg-neutral-400 h-96 text-center">
-        Some sort of footer options
+      <div className="bg-neutral-200 h-72">
+        <Footer />
       </div>
     </div>
   );
