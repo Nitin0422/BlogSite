@@ -31,20 +31,16 @@ const formSchema = z.object({
 });
 
 const Register = () => {
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
   return (
-    <div className="flex bg-slate-00  h-screen justify-center items-center">
+    <div className="flex h-screen justify-center items-center">
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
         <CardHeader>
           <CardTitle className="text-center">
