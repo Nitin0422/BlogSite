@@ -16,9 +16,9 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.string({message:"This field is required"}).email(),
   password: z
-    .string()
+    .string({message:"This field is required"})
     .min(8, { message: "Password must have at least 8 characters" })
     .regex(/[A-Z]/, {
       message: "Password must contain at least one uppercase letter",
