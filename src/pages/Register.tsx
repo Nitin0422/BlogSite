@@ -53,7 +53,7 @@ const Register = () => {
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
         <CardHeader>
           <CardTitle className="text-center">
-            VERTEX{" "}
+            <a href="../#">VERTEX </a>
             <span className="text-neutral-400 font-medium tracking-wide">
               | Registration Form
             </span>

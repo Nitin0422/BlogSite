@@ -48,7 +48,9 @@ const Login = () => {
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
         <CardHeader>
           <CardTitle className="text-center">
+            <a href="../#">
             VERTEX{" "}
+            </a>
             <span className="text-neutral-400 font-medium tracking-wide">
               | Login
             </span>
