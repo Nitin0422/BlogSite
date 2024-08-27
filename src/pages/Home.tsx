@@ -19,10 +19,16 @@ const HomePage = () => {
               VERTEX{" "}
             </h1>
             <div className="flex gap-3 ">
-              <Button className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl text-xs md:text-sm" onClick={() => navigate("/register")}>
+              <Button
+                className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl text-xs md:text-sm"
+                onClick={() => navigate("/register")}
+              >
                 Start Publishing
               </Button>
-              <Button className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl  text-xs md:text-sm" onClick={() => navigate("/login")}>
+              <Button
+                className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl  text-xs md:text-sm"
+                onClick={() => navigate("/login")}
+              >
                 Login
               </Button>
             </div>
@@ -181,7 +187,13 @@ const HomePage = () => {
               your mind, you’re in good company on Vertex. Sign up to discover
               why millions of people have published their passions here.
             </p>
-            <Button className="border border-neutral-400 shadow-sm hover:shadow-slate-50" onClick={() => navigate("/register")}> Create Your Blog</Button>
+            <Button
+              className="border border-neutral-400 shadow-sm hover:shadow-slate-50"
+              onClick={() => navigate("/register")}
+            >
+              {" "}
+              Create Your Blog
+            </Button>
           </div>
         </div>
       </div>
