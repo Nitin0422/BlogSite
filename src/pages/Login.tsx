@@ -14,11 +14,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useNavigate } from "react-router-dom";
+import api from "@/utils/api";
+import { useAuth } from "@/context/AuthProvider";
 
 const formSchema = z.object({
-  email: z.string({message:"This field is required"}).email(),
+  email: z.string({ message: "This field is required" }).email(),
   password: z
-    .string({message:"This field is required"})
+    .string({ message: "This field is required" })
     .min(8, { message: "Password must have at least 8 characters" })
     .regex(/[A-Z]/, {
       message: "Password must contain at least one uppercase letter",
@@ -34,13 +36,29 @@ const formSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const context = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await api.post("api/user/login/", values, {'withCredentials':true});
+      context?.setToken(response.data.token)
+      // Navigate to a different page after successful login, e.g., dashboard
+      navigate("/");
+    } catch (error) {
+      // Optionally handle the error, e.g., display a message to the user
+      form.setError("password", {
+        type: "manual",
+        message: "Invalid credentials",
+      });
+    }
   }
 
   return (
@@ -48,9 +66,7 @@ const Login = () => {
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
         <CardHeader>
           <CardTitle className="text-center">
-            <a href="../#">
-            VERTEX{" "}
-            </a>
+            <a href="../#">VERTEX </a>
             <span className="text-neutral-400 font-medium tracking-wide">
               | Login
             </span>

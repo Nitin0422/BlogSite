@@ -1,8 +1,10 @@
-import axios from 'axios'
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'https://some-domain.com/api/',
-    timeout: 1000,
-  });
-
-export default api
+  baseURL: "http://127.0.0.1:8000/",
+  timeout: 1000,
+});
+api.defaults.xsrfCookieName = "csrftoken";
+api.defaults.xsrfHeaderName = "X-CSRFToken";
+api.defaults.withCredentials = true;
+export default api;
