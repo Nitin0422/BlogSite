@@ -1,6 +1,16 @@
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useAuth } from "@/context/AuthProvider";
 // import api from "@/utils/api";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
@@ -29,12 +39,36 @@ const HomePage = () => {
               >
                 Start Publishing
               </Button>
-              {user ? <Button
-                  className="border text-red-500 border-red-400 hover:shadow-xl hover:shadow-red-700 rounded-xl  text-xs md:text-sm"
-                  onClick={() => navigate("/login")}
-                >
-                  Logout
-                </Button> :(
+              {user ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      className="border text-red-500 border-red-400 hover:shadow-xl hover:shadow-red-700 rounded-xl  text-xs md:text-sm"
+                      // onClick={() => navigate("/login")}
+                    >
+                      Logout
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-lg bg-neutral-200 opacity-90">
+                    <DialogHeader>
+                      <DialogTitle>Exit Vertex?</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to logout from this website?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="justify-end">
+                      <DialogClose asChild>
+                        <Button type="button" variant="secondary">
+                          Close
+                        </Button>
+                      </DialogClose>
+                      <Button type="button" variant="destructive">
+                        Logout
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              ) : (
                 <Button
                   className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl  text-xs md:text-sm"
                   onClick={() => navigate("/login")}
