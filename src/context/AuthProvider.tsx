@@ -7,8 +7,14 @@ import React, {
 } from "react";
 import api from "@/utils/api";
 import { AxiosRequestHeaders } from "axios";
+import { jwtDecode } from "jwt-decode";
 
-const AuthContext = createContext<User | undefined>(undefined);
+export type AuthContextType = {
+  user: User | undefined;
+  setToken: (token: string) => void; //method
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const authContext = useContext(AuthContext);
@@ -21,21 +27,39 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-    const [user, setUser] = useState<User | undefined>(undefined)
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | undefined>(undefined);
+  const [token, setToken] = useState<string | undefined | null>(undefined);
 
   useEffect(() => {
     const fetchMe = async () => {
-      try {
-        const response = await api.get("/api/me");
-        setToken(response.data.accessToken);
-      } catch {
-        setToken(null);
-      }
+        try {
+          const response = await api.post("api/user/refresh/token/", {
+            withCredentials: true,
+          });
+          setToken(response.data.access);
+        } catch {
+          setToken(null);
+        }
     };
 
     fetchMe();
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      const decoded = jwtDecode<JWTPayload>(token);
+      const userObj = {
+        id: decoded.user.id,
+        email: decoded.user.email,
+        name: decoded.user.name,
+        country: decoded.user.country,
+        is_active: decoded.user.is_active,
+      };
+      setUser(userObj);
+    } else {
+      setUser(undefined);
+    }
+  }, [token]);
 
   // Intercept requests to add Authorization header with token
   useLayoutEffect(() => {
@@ -67,14 +91,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
+
         if (
           error.response.status === 401 &&
-          error.response.data.message === "Unauthorized"
-        ) {
+          error.response.statusText === "Unauthorized"
+        ) 
+        {
           try {
-            const response = await api.get("/api/refreshToken");
-            setToken(response.data.accessToken);
-            originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+            const response = await api.post("api/user/refresh/token/", {
+              withCredentials: true,
+            });
+            setToken(response.data.access);
+
+            originalRequest.headers.Authorization = `Bearer ${response.data.access}`;
             return api(originalRequest);
           } catch {
             setToken(null);
@@ -87,9 +116,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       api.interceptors.response.eject(refreshInterceptor);
     };
-  }, [token]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={user? user : undefined}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, setToken }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
