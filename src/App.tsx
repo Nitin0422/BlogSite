@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BlockedAfterLogin from "./components/BlockedAfterLogin";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
             }
             path="/login"
           />
+          <Route element={<PageNotFound/>} path="*"/>
+            
+          
         </Routes>
       </BrowserRouter>
     </AuthProvider>

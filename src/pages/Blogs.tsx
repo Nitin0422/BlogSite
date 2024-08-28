@@ -1,9 +1,12 @@
-const BlogsPage = () => {
-    return (
-        <>
-        This will be the list of blogs
-        </>
-    )
+import { useAuth } from '@/context/AuthProvider'
+
+const Blogs = () => {
+    const {user} = useAuth()
+  return (
+    <div>
+      Hi {user?.name}
+    </div>
+  )
 }
 
-export default BlogsPage;
+export default Blogs
