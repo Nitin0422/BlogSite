@@ -2,13 +2,13 @@ import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthProvider";
-import api from "@/utils/api";
+// import api from "@/utils/api";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="flex flex-col gap-9">
@@ -29,12 +29,19 @@ const HomePage = () => {
               >
                 Start Publishing
               </Button>
-              <Button
-                className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl  text-xs md:text-sm"
-                onClick={() => navigate("/login")}
-              >
-                Login
-              </Button>
+              {user ? <Button
+                  className="border text-red-500 border-red-400 hover:shadow-xl hover:shadow-red-700 rounded-xl  text-xs md:text-sm"
+                  onClick={() => navigate("/login")}
+                >
+                  Logout
+                </Button> :(
+                <Button
+                  className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl  text-xs md:text-sm"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </div>
           {/* This is the body section  */}
