@@ -1,11 +1,15 @@
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/context/AuthProvider";
+import api from "@/utils/api";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const {user} = useAuth();
+
   return (
     <div className="flex flex-col gap-9">
       <div className="h-screen w-screen bg-[url('src/assets/banner4.jpg')] bg-cover">
@@ -36,9 +40,16 @@ const HomePage = () => {
           {/* This is the body section  */}
           <div className="flex flex-col gap-9 justify-between items-center bg-red-00 h-5/6">
             <div className="flex flex-col gap-9 items-center mt-52  sm:mt-72">
-              <p className=" text-5xl tracking-wide leading-snug text-center md:text-5xl font-semibold text-neutral-200">
-                Exploring ideas that matter.
-              </p>
+              {user ? (
+                <p className=" text-5xl tracking-wide leading-snug text-center md:text-5xl font-semibold text-neutral-200">
+                  Welcome! {user.name}
+                </p>
+              ) : (
+                <p className=" text-5xl tracking-wide leading-snug text-center md:text-5xl font-semibold text-neutral-200">
+                  Exploring ideas that matter.
+                </p>
+              )}
+
               <Button
                 size={"lg"}
                 variant={"outline"}
