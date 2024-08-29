@@ -104,6 +104,7 @@ const Login = () => {
                   </FormItem>
                 )}
               />
+              
               <Button type="submit" className="mt-2">
                 Login
               </Button>
@@ -115,6 +116,13 @@ const Login = () => {
                   onClick={() => navigate("/register")}
                 >
                   Register here.
+                </span>
+                {" "}or{" "} 
+                <span
+                  className="underline underline-offset-2 text-neutral-500 cursor-pointer"
+                  onClick={() => navigate("/forgot/password")}
+                >
+                   Forgot Password?
                 </span>
               </p>
             </form>

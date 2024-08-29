@@ -7,6 +7,8 @@ import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BlockedAfterLogin from "./components/BlockedAfterLogin";
 import PageNotFound from "./pages/PageNotFound";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -38,6 +40,23 @@ function App() {
             }
             path="/login"
           />
+          <Route
+            element={
+              <BlockedAfterLogin>
+                <ForgotPassword />
+              </BlockedAfterLogin>
+            }
+            path="/forgot/password"
+          />
+          <Route
+            element={
+              <BlockedAfterLogin>
+                <ResetPassword />
+              </BlockedAfterLogin>
+            }
+            path="/reset/password/:uid/:token"
+          />
+          
           <Route element={<PageNotFound/>} path="*"/>
             
           
