@@ -56,7 +56,7 @@ const HomePage = () => {
                         Are you sure you want to logout from this website?
                       </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter className="justify-end">
+                    <DialogFooter className="justify-end gap-3">
                       <DialogClose asChild>
                         <Button type="button" variant="secondary">
                           Close
