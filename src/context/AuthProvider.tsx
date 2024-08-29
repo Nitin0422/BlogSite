@@ -11,8 +11,7 @@ import React, {
   
   export type AuthContextType = {
     user: User | undefined;
-    setToken: (token: string) => void;
-    token: string | undefined | null;
+    setToken: (token: string | undefined | null) => void;
     loading: boolean; // New loading state
   };
   
@@ -42,7 +41,6 @@ import React, {
           setToken(response.data.access);
         } catch {
           setToken(null);
-          setLoading(false)
         }
       };
   
@@ -63,6 +61,7 @@ import React, {
         setLoading(false);
       } else {
         setUser(undefined);
+        setLoading(false);
       }
     }, [token]);
   
@@ -113,7 +112,7 @@ import React, {
     }, []);
   
     return (
-      <AuthContext.Provider value={{ user, setToken, token, loading }}>
+      <AuthContext.Provider value={{ user, setToken, loading }}>
         {children}
       </AuthContext.Provider>
     );

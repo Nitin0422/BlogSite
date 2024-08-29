@@ -12,13 +12,27 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useAuth } from "@/context/AuthProvider";
+import api from "@/utils/api";
 // import api from "@/utils/api";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, setToken } = useAuth();
+
+  async function Logout() {
+    try {
+        await api.post("api/user/logout/", {
+        withCredentails: true,
+      });
+      setToken(null)
+      navigate("/login")
+    } catch (err) {
+      console.log(err)
+    } finally {
+    }
+  }
 
   return (
     <div className="flex flex-col gap-9">
@@ -62,7 +76,11 @@ const HomePage = () => {
                           Close
                         </Button>
                       </DialogClose>
-                      <Button type="button" variant="destructive">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        onClick={Logout}
+                      >
                         Logout
                       </Button>
                     </DialogFooter>
