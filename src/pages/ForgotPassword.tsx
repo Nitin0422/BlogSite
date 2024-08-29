@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import api from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,12 @@ const formSchema = z.object({
   email: z.string({ message: "This field is required" }).email(),
 });
 
+export interface ErrorResponse {
+  errors?: {
+    non_field_errors?: string[];
+  };
+}
+
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,28 +38,34 @@ const ForgotPassword = () => {
       email: "",
     },
   });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const { data, status } = await api.post("api/user/send/password/reset/email/", values);
-      toast.success(`${data.message} Redirecting you to login page...`)
+      const { data } = await api.post(
+        "api/user/send/password/reset/email/",
+        values
+      );
+      toast.success(`${data.message} Redirecting you to login page......`)
       setTimeout(() => {
         navigate('/login');
-      }, 3000);  
-      
-      if (status === 400) {
-        toast.error(data.errors.non_field_errors[0]);
+      }, 4000);                    
+    } catch (err) {
+      const error = err as AxiosError<ErrorResponse>;
+      if (
+        error.response?.status === 400 &&
+        error.response.data?.errors?.non_field_errors?.[0]
+      ) {
+        toast.error(error.response.data.errors.non_field_errors[0]);
       } else {
-        console.log(data);
+        console.error("An error occurred:", error);
+        toast.error("Something went wrong, please try again later.");
       }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      toast.error("Something went wrong, please try again later.");
     } finally {
       setLoading(false);
     }
   }
-  
+
   return (
     <div className="flex h-screen justify-center items-center">
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
@@ -83,7 +96,7 @@ const ForgotPassword = () => {
                   </FormItem>
                 )}
               />
-               <Button type="submit" className="mt-2">
+              <Button type="submit" className="mt-2">
                 {loading ? <Loader /> : <>Send Password Reset Link</>}
               </Button>
               <p className="text-center text-sm font-light">
