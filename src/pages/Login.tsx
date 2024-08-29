@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { toast, Toaster } from "sonner";
 import {
   FormField,
   FormItem,
@@ -16,6 +17,8 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { useNavigate } from "react-router-dom";
 import api from "@/utils/api";
 import { useAuth } from "@/context/AuthProvider";
+import { useState } from "react";
+import Loader from "@/components/Loader";
 
 const formSchema = z.object({
   email: z.string({ message: "This field is required" }).email(),
@@ -36,7 +39,8 @@ const formSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const context = useAuth();
+  const { setToken } = useAuth();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,16 +52,17 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await api.post("api/user/login/", values, {'withCredentials':true});
-      context?.setToken(response.data.token)
+      setLoading(true);
+      const response = await api.post("api/user/login/", values, {
+        withCredentials: true,
+      });
+      setLoading(false);
+      setToken(response.data.token);
       // Navigate to a different page after successful login, e.g., dashboard
       navigate("/");
     } catch (error) {
-      // Optionally handle the error, e.g., display a message to the user
-      form.setError("password", {
-        type: "manual",
-        message: "Invalid credentials",
-      });
+      setLoading(false);
+      toast.error("Username and password do not match!", { duration: 3000 });
     }
   }
 
@@ -104,9 +109,9 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              
+
               <Button type="submit" className="mt-2">
-                Login
+                {loading ? <Loader/> : <>Login</>}
               </Button>
               <p className="text-center text-sm font-light">
                 {" "}
@@ -116,19 +121,20 @@ const Login = () => {
                   onClick={() => navigate("/register")}
                 >
                   Register here.
-                </span>
-                {" "}or{" "} 
+                </span>{" "}
+                or{" "}
                 <span
                   className="underline underline-offset-2 text-neutral-500 cursor-pointer"
                   onClick={() => navigate("/forgot/password")}
                 >
-                   Forgot Password?
+                  Forgot Password?
                 </span>
               </p>
             </form>
           </Form>
         </CardContent>
       </Card>
+      <Toaster richColors position="top-right" closeButton />
     </div>
   );
 };
