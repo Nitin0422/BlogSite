@@ -1,101 +1,20 @@
 import Footer from "@/components/footer";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { useAuth } from "@/context/AuthProvider";
-import api from "@/utils/api";
-// import api from "@/utils/api";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { user, setToken } = useAuth();
-
-  async function Logout() {
-    try {
-        await api.post("api/user/logout/", {
-        withCredentails: true,
-      });
-      setToken(null)
-      navigate("/login")
-    } catch (err) {
-      console.log(err)
-    } finally {
-    }
-  }
+  const { user } = useAuth();
 
   return (
     <div className="flex flex-col gap-9">
       <div className="h-screen w-screen bg-[url('src/assets/banner4.jpg')] bg-cover">
-        <div className="bg-black h-screen bg-opacity-60">
-          <div className="h-14 bg-opacity-75 flex justify-between items-center px-3 md:px-6">
-            <h1
-              className="text-white cursor-pointer text-2xl md:text-4xl font-bold"
-              onClick={() => navigate("/")}
-            >
-              {" "}
-              VERTEX{" "}
-            </h1>
-            <div className="flex gap-3 ">
-              <Button
-                className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl text-xs md:text-sm"
-                onClick={() => navigate("/register")}
-              >
-                Start Publishing
-              </Button>
-              {user ? (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      className="border text-red-500 border-red-400 hover:shadow-xl hover:shadow-red-700 rounded-xl  text-xs md:text-sm"
-                      // onClick={() => navigate("/login")}
-                    >
-                      Logout
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-lg bg-neutral-200 opacity-90">
-                    <DialogHeader>
-                      <DialogTitle>Exit Vertex?</DialogTitle>
-                      <DialogDescription>
-                        Are you sure you want to logout from this website?
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter className="justify-end gap-3">
-                      <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                          Close
-                        </Button>
-                      </DialogClose>
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        onClick={Logout}
-                      >
-                        Logout
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              ) : (
-                <Button
-                  className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl  text-xs md:text-sm"
-                  onClick={() => navigate("/login")}
-                >
-                  Login
-                </Button>
-              )}
-            </div>
-          </div>
+        <div className="bg-black h-screen bg-opacity-60 ">
+          <Header />
           {/* This is the body section  */}
           <div className="flex flex-col gap-9 justify-between items-center bg-red-00 h-5/6">
             <div className="flex flex-col gap-9 items-center mt-52  sm:mt-72">
