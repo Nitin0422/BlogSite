@@ -13,6 +13,7 @@ import React, {
     user: User | undefined;
     setToken: (token: string | undefined | null) => void;
     loading: boolean; // New loading state
+    setLoading: (loading:boolean) => void
   };
   
   const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -112,7 +113,7 @@ import React, {
     }, []);
   
     return (
-      <AuthContext.Provider value={{ user, setToken, loading }}>
+      <AuthContext.Provider value={{ user, setToken, loading, setLoading }}>
         {children}
       </AuthContext.Provider>
     );
