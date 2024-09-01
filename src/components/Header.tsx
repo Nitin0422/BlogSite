@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PasswordInput } from "./ui/password-input";
 import { Label } from "./ui/label";
 
@@ -33,6 +33,7 @@ const Header = () => {
     useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
+  const [formErrors, setFormErrors] = useState<string>("");
 
   async function Logout() {
     try {
@@ -52,6 +53,15 @@ const Header = () => {
     const initials = nameParts.map((part) => part[0].toUpperCase());
     return initials.join("");
   };
+
+  useEffect(() => {
+    if (password !== password2) {
+      setFormErrors("Password and confirm passoword do not match");
+    }
+    else{
+        setFormErrors("")
+    }
+  }, [password, password2]);
 
   return (
     <div className="h-14 bg-opacity-75 flex justify-between items-center px-3 md:px-6">
@@ -154,6 +164,7 @@ const Header = () => {
                       onChange={(e) => setPassword2(e.target.value)}
                     ></PasswordInput>
                   </div>
+                  {formErrors && <span className="text-red-500 text-sm">{formErrors}</span>}
                 </form>
                 <DialogFooter className="justify-end gap-3">
                   <DialogClose asChild>
