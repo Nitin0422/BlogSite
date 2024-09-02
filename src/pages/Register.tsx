@@ -14,6 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Loader from "@/components/Loader";
 
 const formSchema = z
   .object({
@@ -32,6 +42,8 @@ const formSchema = z
         message: "Password must contain at least one special character",
       }),
     confirmPassword: z.string(),
+    name: z.string(),
+    country: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -44,8 +56,39 @@ const Register = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const [countries, setCountries] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [defaultCountry, setDefaultCountry] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    async function getCountries() {
+      try {
+        const { data } = await axios.get(
+          "https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code"
+        );
+        setCountries(data.countries);
+        setDefaultCountry(data.userCountryCode);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
+      }
+    }
+    getCountries();
+  }, []);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+  }
+
+  if (loading) {
+    return (
+      <div className="flex h-screen justify-center items-center">
+        <Loader />;
+      </div>
+    ); // Show a loading spinner while data is being fetched
   }
 
   return (
@@ -65,6 +108,45 @@ const Register = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-3"
             >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Country</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={defaultCountry || field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a country" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country.value} value={country.value}>
+                            {country.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
