@@ -49,7 +49,7 @@ const ForgotPassword = () => {
       toast.success(`${data.message} Redirecting you to login page......`)
       setTimeout(() => {
         navigate('/login');
-      }, 4000);                    
+      }, 2500);                    
     } catch (err) {
       const error = err as AxiosError<ErrorResponse>;
       if (
