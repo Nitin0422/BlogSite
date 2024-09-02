@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthProvider";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -11,7 +12,9 @@ const HomePage = () => {
   const { user } = useAuth();
 
   return (
-    <div className="flex flex-col gap-9">
+    <motion.div className="flex flex-col gap-9" initial={{ opacity: 0}}
+    animate={{ opacity: 1}}
+    transition={{ duration: 0.5 }}>
       <div className="h-screen w-screen bg-[url('src/assets/banner4.jpg')] bg-cover">
         <div className="bg-black h-screen bg-opacity-60 ">
           <Header />
@@ -173,7 +176,7 @@ const HomePage = () => {
       <div className="bg-neutral-200 h-72">
         <Footer />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

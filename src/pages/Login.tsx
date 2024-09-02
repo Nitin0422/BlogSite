@@ -19,6 +19,7 @@ import api from "@/utils/api";
 import { useAuth } from "@/context/AuthProvider";
 import { useState } from "react";
 import Loader from "@/components/Loader";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   email: z.string({ message: "This field is required" }).email(),
@@ -67,7 +68,12 @@ const Login = () => {
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <motion.div
+      className="flex h-screen justify-center items-center"
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+    >
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
         <CardHeader>
           <CardTitle className="text-center">
@@ -135,7 +141,7 @@ const Login = () => {
         </CardContent>
       </Card>
       <Toaster richColors position="top-right" closeButton />
-    </div>
+    </motion.div>
   );
 };
 

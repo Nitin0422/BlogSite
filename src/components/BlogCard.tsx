@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { MessageCircle, Sparkles, ThumbsDown, ThumbsUp } from "lucide-react";
 
@@ -9,7 +10,7 @@ interface BlogCardProps {
   likes: number;
   dislikes: number;
   comments: number;
-  image : string;
+  image: string;
 }
 
 const BlogCard = ({
@@ -20,9 +21,8 @@ const BlogCard = ({
   likes,
   dislikes,
   comments,
-  image
+  image,
 }: BlogCardProps) => {
-
   const getInitials = (name: string) => {
     const nameParts = name.split(" ");
     const initials = nameParts.map((part) => part[0].toUpperCase());
@@ -30,7 +30,13 @@ const BlogCard = ({
   };
 
   return (
-    <div className="grid grid-cols-3 p-1 lg:w-5/6 border-b-2">
+    <motion.div
+      className="grid grid-cols-3 p-1 lg:w-5/6 border-b-2"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1.5 }}
+    //   viewport={{ once: true }}
+    >
       <div className=" col-span-2  p-1 grid grid-rows-5 gap-3 max-h-48">
         <div className="row-span-1 flex gap-2 items-center">
           <Avatar className="cursor-pointer size-9 border-neutral-300  border">
@@ -70,10 +76,7 @@ const BlogCard = ({
         </div>
       </div>
       <div className="col-span-1  p-1 overflow-hidden max-h-48">
-        <img
-          src={image}
-          className="w-full h-full object-cover"
-        />
+        <img src={image} className="w-full h-full object-cover" />
       </div>
 
       {/* <div className=" flex justify-center p-5 pb-2 ">
@@ -92,7 +95,7 @@ const BlogCard = ({
         <span className=" font-medium">Nitin Tandukar </span>
         <span className="text-yellow-700">on April 28 2023 </span>
       </CardContent> */}
-    </div>
+    </motion.div>
   );
 };
 

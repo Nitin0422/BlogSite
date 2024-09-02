@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import api from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -46,10 +47,10 @@ const ForgotPassword = () => {
         "api/user/send/password/reset/email/",
         values
       );
-      toast.success(`${data.message} Redirecting you to login page......`)
+      toast.success(`${data.message} Redirecting you to login page......`);
       setTimeout(() => {
-        navigate('/login');
-      }, 2500);                    
+        navigate("/login");
+      }, 2500);
     } catch (err) {
       const error = err as AxiosError<ErrorResponse>;
       if (
@@ -67,7 +68,12 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <motion.div
+      className="flex h-screen justify-center items-center"
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4 }}
+    >
       <Card className="3/4 md:w-1/2 lg:w-1/3 ">
         <CardHeader>
           <CardTitle className="text-center">
@@ -114,7 +120,7 @@ const ForgotPassword = () => {
         </CardContent>
       </Card>
       <Toaster richColors position="top-right" closeButton />
-    </div>
+    </motion.div>
   );
 };
 
