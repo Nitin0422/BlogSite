@@ -41,14 +41,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setToken } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const query = new URLSearchParams(window.location.search);
-  const resetPwdEmailSent = query.get("resetPwdEmailSent");
-  if (resetPwdEmailSent === "True") {
-    toast.success(
-      "Password reset email has been sent to your email. Follow the link to reset your password!",
-      { duration: 10000 }
-    );
-  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

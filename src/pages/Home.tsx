@@ -2,7 +2,6 @@ import BlogCard from "@/components/BlogCard";
 import Footer from "@/components/footer";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthProvider";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";

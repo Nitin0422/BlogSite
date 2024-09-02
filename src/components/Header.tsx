@@ -11,7 +11,7 @@ import { DialogHeader, DialogFooter } from "./ui/dialog";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
 import api from "@/utils/api";
-import { Lock, LogIn, LogOut } from "lucide-react";
+import { Lock, LogIn, LogOut, UserPlus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -100,12 +100,22 @@ const Header = () => {
           VERTEX{" "}
         </h1>
         <div className="flex gap-3 ">
-          <Button
-            className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl text-xs md:text-sm"
-            onClick={() => navigate("/register")}
-          >
-            Start Publishing
-          </Button>
+          {user ? (
+            <Button
+              className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl text-xs md:text-sm"
+              onClick={() => navigate("/somewhere")}
+            >
+              Start Publishing
+            </Button>
+          ) : (
+            <Button
+              className="border border-neutral-400 hover:shadow-xl hover:shadow-neutral-700 rounded-xl text-xs md:text-sm flex gap-2 items-center"
+              onClick={() => navigate("/register")}
+            >
+             <UserPlus size={16}/> Register
+            </Button>
+          )}
+
           {user ? (
             <>
               <DropdownMenu>
@@ -209,7 +219,11 @@ const Header = () => {
                         Close
                       </Button>
                     </DialogClose>
-                    <Button type="button" onClick={HandleChangePassword} disabled={formErrors !== ""}>
+                    <Button
+                      type="button"
+                      onClick={HandleChangePassword}
+                      disabled={formErrors !== ""}
+                    >
                       Change Password
                     </Button>
                   </DialogFooter>
