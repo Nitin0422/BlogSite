@@ -1,3 +1,4 @@
+import BlogCard from "@/components/BlogCard";
 import Footer from "@/components/footer";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
@@ -48,43 +49,27 @@ const HomePage = () => {
         Embark on a journey of discovery and inspiration
       </h1>
       <div className=" flex justify-center">
-        <div className=" w-5/6 lg:w-3/5 flex flex-col md:flex-row justify-center items-center gap-9">
-          <Card className="md:min-h-full md:w-3/4 shadow-xl">
-            <div className=" flex justify-center p-5 pb-2 ">
-              <img
-                src="../src/assets/banner.jpg"
-                className=" w-full h-56 rounded-md shadow-md"
-              />
-            </div>
-
-            <p className="mx-5 font-bold text-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </p>
-
-            <CardContent className="text-justify text-sm">
-              <span className=" text-neutral-500">By </span>
-              <span className=" font-medium">Nitin Tandukar </span>
-              <span className="text-yellow-700">on April 28 2023 </span>
-            </CardContent>
-          </Card>
-          <Card className="md:min-h-full md:w-3/4 shadow-xl">
-            <div className=" flex justify-center p-5 pb-2 ">
-              <img
-                src="../src/assets/banner3.jpg"
-                className=" w-full h-56 rounded-md shadow-md"
-              />
-            </div>
-
-            <p className="mx-5 font-bold text-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </p>
-
-            <CardContent className="text-justify text-sm">
-              <span className=" text-neutral-500">By </span>
-              <span className=" font-medium">Nitin Tandukar </span>
-              <span className="text-yellow-700">on April 28 2023 </span>
-            </CardContent>
-          </Card>
+        <div className="w-full lg:w-5/6 flex flex-col  justify-center items-center gap-3 md:gap-9">
+          <BlogCard
+            userName="Samagya Pradhan"
+            blogTitle="The resume that got software engineer a $300,000 job at Google."
+            blogDesc="Above is the resume I used to apply to Google and land an exciting $300,000 offer."
+            blogPostDate="16th Nov"
+            likes={445}
+            dislikes={10}
+            comments={99}
+            image="../src/assets/banner3.jpg"
+          />
+          <BlogCard
+            userName="Tari Ibabha"
+            blogTitle="5 amazing new JavaScript features in ES15 (2024)"
+            blogDesc="From sophisticated async features to syntactic array sugar and modern regex, JavaScript coding is now easier and faster than ever."
+            blogPostDate="14th Oct"
+            likes={695}
+            dislikes={77}
+            comments={100}
+            image="../src/assets/banner.jpg"
+          />
         </div>
       </div>
       <div className="bg-neutral-300 p-9 flex flex-col gap-9 justify-center items-center">
