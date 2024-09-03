@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   Select,
   SelectContent,
@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/select";
 import Loader from "@/components/Loader";
 import { motion } from "framer-motion";
+import api from "@/utils/api";
+import { toast, Toaster } from "sonner";
 
 const formSchema = z
   .object({
@@ -42,26 +44,43 @@ const formSchema = z
       .regex(/[^a-zA-Z0-9]/, {
         message: "Password must contain at least one special character",
       }),
-    confirmPassword: z.string(),
+    password2: z.string(),
     name: z.string(),
     country: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.password2, {
     message: "Passwords don't match",
-    path: ["confirmPassword"],
+    path: ["password2"],
   });
 
 const Register = () => {
   const navigate = useNavigate();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
 
   const [countries, setCountries] = useState<
     { value: string; label: string }[]
   >([]);
   const [defaultCountry, setDefaultCountry] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [countriesLoading, setcountriesLoading] = useState<boolean>(true);
+
+  const [formLoading, setFormLoading] = useState<boolean>(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      password2: "",
+      name: "",
+      country: defaultCountry,
+    },
+  });
+
+  interface ErrorResponse {
+    errors?: {
+      non_field_errors?: string[];
+      email?: string[];
+    };
+  }
 
   useEffect(() => {
     async function getCountries() {
@@ -71,25 +90,49 @@ const Register = () => {
         );
         setCountries(data.countries);
         setDefaultCountry(data.userCountryCode);
+        form.reset({
+          ...form.getValues(), // Keep current form values
+          country: data.userCountryCode, // Set the fetched default country
+        });
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false); // Set loading to false after data is fetched
+        setcountriesLoading(false); // Set countriesLoading to false after data is fetched
       }
     }
     getCountries();
   }, []);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setFormLoading(true);
+      const response = await api.post("api/user/register/", values);
+      toast.success(response.data.message);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2500);
+    } catch (err) {
+      const error = err as AxiosError<ErrorResponse>;
+      if (error.response?.data?.errors?.non_field_errors) {
+        toast.error(error.response.data.errors.non_field_errors[0]);
+      } else if (error.response?.data?.errors?.email) {
+        toast.error(error.response.data.errors.email[0]);
+      } else {
+        console.error("An error occurred:", error);
+        toast.error("Something went wrong, please try again later.");
+      }
+    } finally {
+      form.reset();
+      setFormLoading(false);
+    }
   }
 
-  if (loading) {
+  if (countriesLoading) {
     return (
       <div className="flex h-screen justify-center items-center">
         <Loader />;
       </div>
-    ); // Show a loading spinner while data is being fetched
+    ); // Show a countriesLoading spinner while data is being fetched
   }
 
   return (
@@ -133,8 +176,11 @@ const Register = () => {
                   <FormItem>
                     <FormLabel>Country</FormLabel>
                     <Select
-                      onValueChange={field.onChange}
-                      defaultValue={defaultCountry || field.value}
+                      onValueChange={(value) => {
+                        console.log("Selected country value:", value); // Debugging log
+                        field.onChange(value); // Set the selected value to the form field
+                      }}
+                      value={field.value} // Ensure value is bound to form field
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -153,6 +199,7 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="email"
@@ -181,7 +228,7 @@ const Register = () => {
               />
               <FormField
                 control={form.control}
-                name="confirmPassword"
+                name="password2"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Confirm Password</FormLabel>
@@ -192,8 +239,15 @@ const Register = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="mt-2">
-                Register
+
+              <Button type="submit" className="mt-2" disabled={formLoading}>
+                {formLoading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    <>Register</>
+                  </>
+                )}
               </Button>
               <p className="text-center text-sm font-light">
                 {" "}
@@ -209,6 +263,7 @@ const Register = () => {
           </Form>
         </CardContent>
       </Card>
+      <Toaster richColors position="top-right" />
     </motion.div>
   );
 };

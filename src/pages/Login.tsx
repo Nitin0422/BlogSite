@@ -20,6 +20,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { useState } from "react";
 import Loader from "@/components/Loader";
 import { motion } from "framer-motion";
+import { AxiosError } from "axios";
 
 const formSchema = z.object({
   email: z.string({ message: "This field is required" }).email(),
@@ -50,7 +51,9 @@ const Login = () => {
       password: "",
     },
   });
-
+  interface ErrorResponse {
+    message?: string;
+  }
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
@@ -61,9 +64,18 @@ const Login = () => {
       setToken(response.data.token);
       // Navigate to a different page after successful login, e.g., dashboard
       navigate("/");
-    } catch (error) {
+    } catch (err) {
+      const error = err as AxiosError<ErrorResponse>;
+      console.log(error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message, { duration: 3000 });
+      } else {
+        toast.error("Username and password do not match!", { duration: 3000 });
+      }
       setLoading(false);
-      toast.error("Username and password do not match!", { duration: 3000 });
+    }
+    finally{
+      form.reset()
     }
   }
 
