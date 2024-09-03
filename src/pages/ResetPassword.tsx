@@ -82,7 +82,6 @@ const ResetPassword = () => {
             <span className="text-neutral-400 font-medium tracking-wide">
               | Reset Password
             </span>
-            {uid}
           </CardTitle>
         </CardHeader>
         <CardContent>

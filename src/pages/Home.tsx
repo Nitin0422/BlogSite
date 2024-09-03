@@ -6,15 +6,19 @@ import { useAuth } from "@/context/AuthProvider";
 import { ArrowRight, ChevronsDownIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import AboutVertex from "@/components/AboutVertex";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
   return (
-    <motion.div className="flex flex-col gap-9" initial={{ opacity: 0}}
-    animate={{ opacity: 1}}
-    transition={{ duration: 0.5 }}>
+    <motion.div
+      className="flex flex-col gap-9"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="h-screen w-screen bg-[url('src/assets/banner4.jpg')] bg-cover">
         <div className="bg-black h-screen bg-opacity-60 ">
           <Header />
@@ -46,9 +50,9 @@ const HomePage = () => {
         </div>
       </div>
 
-      <h1 className="text-center font-light text-3xl md:text-5xl pt-9">
+      <h1 className="text-center font-extrabold tracking-tight text-3xl md:text-5xl pt-9">
         {" "}
-        Embark on a journey of discovery and inspiration
+        Popular Blogs
       </h1>
       <div className=" flex justify-center">
         <div className="w-full lg:w-5/6 flex flex-col  justify-center items-center gap-3 md:gap-9">
@@ -74,7 +78,12 @@ const HomePage = () => {
           />
         </div>
       </div>
-      <div className="bg-neutral-300 p-9 flex flex-col gap-9 justify-center items-center">
+      {/* <motion.div
+        className="bg-neutral-300 p-9 flex flex-col gap-9 justify-center items-center"
+        initial={{ x: -800 }}
+        whileInView={{ x: 0 }}
+        transition={{ type: "spring", duration: 2 }}
+      >
         <h1 className="text-6xl font-light text-center"> Vertex Basics</h1>
         <div className="flex flex-col pt-9 md:grid md:grid-cols-2 gap-3">
           <div className="text-xl font-medium md:text-4xl md:font-thin md:flex md:pl-24 items-center">
@@ -150,7 +159,8 @@ const HomePage = () => {
             its users.
           </div>
         </div>
-      </div>
+      </motion.div> */}
+      <AboutVertex />
       <div className="">
         <div className="bg-[url('src/assets/world2.jpg')] h-[350px] sm:h-[500px]  bg-center bg-cover bg-no-repeat">
           <div className="h-full  bg-black  bg-opacity-60 flex flex-col justify-center items-center gap-5 text-neutral-200">

@@ -32,7 +32,7 @@ const BlogCard = ({
   return (
     <motion.div
       className="grid grid-cols-3 p-1 lg:w-5/6 border-b-2"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0.2 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     //   viewport={{ once: true }}
