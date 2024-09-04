@@ -73,9 +73,8 @@ const Login = () => {
         toast.error("Username and password do not match!", { duration: 3000 });
       }
       setLoading(false);
-    }
-    finally{
-      form.reset()
+    } finally {
+      form.reset();
     }
   }
 
@@ -146,6 +145,13 @@ const Login = () => {
                   onClick={() => navigate("/forgot/password")}
                 >
                   Forgot Password?
+                </span>
+                or{" "}
+                <span
+                  className="underline underline-offset-2 text-neutral-500 cursor-pointer"
+                  onClick={() => navigate("/activate/account")}
+                >
+                  Activate Account?
                 </span>
               </p>
             </form>

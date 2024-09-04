@@ -9,6 +9,8 @@ import BlockedAfterLogin from "./components/BlockedAfterLogin";
 import PageNotFound from "./pages/PageNotFound";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ActivateAccount from "./pages/ActivateAccount";
+import ActivateAccountForm from "./pages/ActivateAccountForm";
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<HomePage />} path="/" />
+          <Route element={<ActivateAccount/>} path="/activate/account/:uid/:token" />
           <Route
             path="/blogs"
             element={
@@ -55,6 +58,14 @@ function App() {
               </BlockedAfterLogin>
             }
             path="/reset/password/:uid/:token"
+          />
+          <Route
+            element={
+              <BlockedAfterLogin>
+                <ActivateAccountForm />
+              </BlockedAfterLogin>
+            }
+            path="/activate/account"
           />
           
           <Route element={<PageNotFound/>} path="*"/>
