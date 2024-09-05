@@ -2,7 +2,7 @@ import { Facebook, Github, Instagram, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className="h-full md:mx-48 flex flex-col items-center pt-9 gap-4">
+    <div className="h-full md:px-48 flex flex-col items-center py-9 gap-4 bg-neutral-200 w-full">
       <h1 className="text-3xl md:text-5xl font-bold"> Vertex </h1>
       <p className="text-center">
         Vertex is a blog platform where users can share knowledge, ideas, and
