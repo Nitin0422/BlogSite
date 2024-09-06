@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 const Blogs = () => {
   const blogs: Blog[] = [
     {
-      userName: "johnDoe",
+      userName: "John Doe",
       blogTitle: "Understanding JavaScript Closures",
       blogDesc: "A deep dive into closures in JavaScript and how they work.",
       blogPostDate: "2024-09-01",
@@ -16,7 +16,7 @@ const Blogs = () => {
       image: "../src/assets/banner.jpg",
     },
     {
-      userName: "janeSmith",
+      userName: "Jane Smith",
       blogTitle: "Mastering React Hooks",
       blogDesc:
         "An in-depth guide to React Hooks and how to use them effectively.",
@@ -27,7 +27,7 @@ const Blogs = () => {
       image: "../src/assets/banner3.jpg",
     },
     {
-      userName: "codeMaster",
+      userName: "Code Master",
       blogTitle: "Introduction to Django REST Framework",
       blogDesc: "Learn how to build APIs using Django REST Framework.",
       blogPostDate: "2024-09-03",
@@ -37,7 +37,7 @@ const Blogs = () => {
       image: "../src/assets/banner2.jpg",
     },
     {
-      userName: "devGuru",
+      userName: "Dev Guru",
       blogTitle: "Exploring Tailwind CSS",
       blogDesc:
         "A beginner's guide to Tailwind CSS and how to style your web applications.",
@@ -51,7 +51,7 @@ const Blogs = () => {
 
   return (
     <div className="space-y-9">
-      <div className="bg-neutral-950">
+      <div className="bg-neutral-950 opacity-95">
         <Header />
       </div>
 

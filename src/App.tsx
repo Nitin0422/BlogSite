@@ -11,6 +11,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ActivateAccount from "./pages/ActivateAccount";
 import ActivateAccountForm from "./pages/ActivateAccountForm";
+import Blog from "./pages/Blog";
 
 function App() {
   return (
@@ -24,6 +25,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Blogs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/blog/:blogID"
+            element={
+              <ProtectedRoute>
+                <Blog />
               </ProtectedRoute>
             }
           />
