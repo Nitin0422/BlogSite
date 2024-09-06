@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { MessageCircle, Sparkles, ThumbsDown, ThumbsUp } from "lucide-react";
-import { Separator } from "./ui/separator";
 
 const BlogCard = ({
   userName,
@@ -21,7 +20,7 @@ const BlogCard = ({
 
   return (
     <motion.div
-      className="grid grid-cols-3 lg:w-5/6 shadow-neutral-300 shadow-sm rounded-md p-3"
+      className="grid grid-cols-3 lg:w-5/6 shadow-neutral-300 shadow-sm rounded-md p-3 border bg-stone-50"
       initial={{ opacity: 0.2 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}

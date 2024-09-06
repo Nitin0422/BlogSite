@@ -19,7 +19,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     );
   }
 
-  if (!user) {
+  if (user === undefined && loading === false) {
     console.log("No user found... Redirecting to login page.");
     return <Navigate to="/login" replace />;
   }

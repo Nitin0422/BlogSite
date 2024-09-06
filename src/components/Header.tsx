@@ -45,10 +45,10 @@ const Header = () => {
       });
       setLoading(true);
       setToken(null);
+      console.log('logout successfull')
+      navigate("/login");
     } catch (err) {
       console.log(err);
-    } finally {
-      navigate("/login");
     }
   }
   const getInitials = (name: string) => {

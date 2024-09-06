@@ -32,14 +32,16 @@ import React, {
     const [user, setUser] = useState<User | undefined>(undefined);
     const [token, setToken] = useState<string | undefined | null>(undefined);
     const [loading, setLoading] = useState<boolean>(true); // New loading state
+    const [firstRender, setFirstRender] = useState<boolean>(true);
   
     useEffect(() => {
       const fetchMe = async () => {
+        console.log("Fetch Me Called")
         try {
-          const response = await api.post("api/user/refresh/token/", {
+          const response = await api.get("api/user/access/token/", {
             withCredentials: true,
           });
-          setToken(response.data.access);
+          setToken(response.data.token);
         } catch {
           setToken(null);
         }
@@ -49,21 +51,26 @@ import React, {
     }, []);
   
     useLayoutEffect(() => {
-      if (token) {
-        const decoded = jwtDecode<JWTPayload>(token);
-        const userObj = {
-          id: decoded.user.id,
-          email: decoded.user.email,
-          name: decoded.user.name,
-          country: decoded.user.country,
-          is_active: decoded.user.is_active,
-        };
-        setUser(userObj);
-        setLoading(false);
-      } else {
-        setUser(undefined);
-        setLoading(false);
+      if(!firstRender) {
+        if (token) {
+          const decoded = jwtDecode<JWTPayload>(token);
+          const userObj = {
+            id: decoded.user.id,
+            email: decoded.user.email,
+            name: decoded.user.name,
+            country: decoded.user.country,
+            is_active: decoded.user.is_active,
+          };
+          console.log("User set to: ", userObj)
+          setUser(userObj);
+          setLoading(false);
+        } else {
+          console.log("User set to undefined")
+          setUser(undefined);
+          setLoading(false);
+        }
       }
+      setFirstRender(false)
     }, [token]);
   
     useLayoutEffect(() => {
